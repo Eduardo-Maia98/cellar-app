@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741035143731",
+    "project_id": "cellar-app-48ce7",
+    "storage_bucket": "cellar-app-48ce7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741035143731:android:b37bb4e6169cc171a62946",
+        "android_client_info": {
+          "package_name": "com.eduardo.cellarapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvXHBJtyw4oTAbwYAo8WWay--BiUHblHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
