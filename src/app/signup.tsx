@@ -1,16 +1,17 @@
-import { AuthContext } from "@/context/AuthContext";
-import { Link } from "expo-router";
-import { useContext, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Link, router } from "expo-router";
+import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function SignUpScreen() {
-  const { signUp } = useContext(AuthContext);
+  const { signUp } = useAuth( );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
     try {
       await signUp(email, password);
+      router.replace("/home")
     } catch (err: any) {
       Alert.alert("Erro", err.message);
     }

@@ -1,24 +1,25 @@
+import ProductDTO from "@/@types/products";
 import ProductCard from "@/components/ProductCard";
-import { AuthContext } from "@/context/AuthContext";
 import { getFavoritesByEmail, removeFavorite } from "@/firebase/favoriteItem";
+import { useAuth } from "@/hooks/useAuth";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 
 export default function FavoritesScreen() {
-  const { user } = useContext(AuthContext);
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const { user } = useAuth();
+  const [favorites, setFavorites] = useState<ProductDTO[]>([]);
 
   function fetchFavorites() {
     if (!user?.email) return;
-  
+
     getFavoritesByEmail(user.email).then((data) => {
       setFavorites(data);
     });
     console.log('fetch')
   }
 
-  async function handleUnfavorite(productId: string) {
+  async function handleUnfavorite(productId: number) {
     if (!user?.email) return;
     await removeFavorite(productId, user.email);
     fetchFavorites();
@@ -49,7 +50,7 @@ export default function FavoritesScreen() {
             onUnfavorite={() => handleUnfavorite(item.id)}
           />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
     </View>
   );

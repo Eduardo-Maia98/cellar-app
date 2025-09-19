@@ -1,6 +1,3 @@
-import { AuthContext } from "@/context/AuthContext";
-import { removeFavorite, saveFavorite } from "@/firebase/favoriteItem";
-import { useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -11,26 +8,16 @@ type Props = {
 }
 
 export default function ProductCard({ product, isFavorited, onUnfavorite, onFavorite }: Props) {
-  const { user } = useContext(AuthContext);
 
-  function handleSaveFavorite() {
-    saveFavorite(product.id.toString(), product, user.email);
-    if (typeof onFavorite === "function") {
-      onFavorite();
-    }
-  }
-  function handleUnfavorite() {
-    if (onUnfavorite) {
-      onUnfavorite();
-    } else {
-      removeFavorite(product.id.toString(), user.email);
-    }
-  }
+
   function handleFavorite() {
     if (isFavorited) {
-      handleUnfavorite();
+      if (typeof onUnfavorite === "function")
+        onUnfavorite();
     } else {
-      handleSaveFavorite();
+      if (typeof onFavorite === "function")
+        onFavorite();
+
     }
   }
   return (

@@ -1,23 +1,15 @@
-import { AuthContext } from "@/context/AuthContext";
-import messaging from '@react-native-firebase/messaging';
+import { useAuth } from "@/hooks/useAuth";
 import { Link, router } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-async function getFcmToken() {
-  const token = await messaging().getToken();
-  console.log('FCM Token:', token);
-  // Copie esse token para usar no painel do Firebase
-}
 
 export default function LoginScreen() {
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
   const [email, setEmail] = useState("cellar@teste.com");
   const [password, setPassword] = useState("123456");
 
-  useEffect(() => {
-    getFcmToken();
-  }, []);
+
 
   const handleLogin = async () => {
     try {

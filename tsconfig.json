@@ -15,6 +15,7 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "metro.config.js",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "jest.config.json",
   ]
 }

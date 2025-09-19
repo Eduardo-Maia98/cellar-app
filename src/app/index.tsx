@@ -1,9 +1,8 @@
-import { AuthContext } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { Redirect } from "expo-router";
-import { useContext } from "react";
 
 
 export default function Index() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
    return user ? <Redirect href="/home" /> : <Redirect href="/login" />;
 }

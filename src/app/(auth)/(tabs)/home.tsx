@@ -1,14 +1,15 @@
+import ProductDTO from "@/@types/products";
 import ProductCard from "@/components/ProductCard";
-import { AuthContext } from "@/context/AuthContext";
-import { getFavoritesByEmail } from "@/firebase/favoriteItem";
-import { registerForPushNotificationsAsync } from "@/hooks/usePushNotification";
+import { getFavoritesByEmail, saveFavorite } from "@/firebase/favoriteItem";
+import { useAuth } from "@/hooks/useAuth";
+
 import { useFocusEffect } from "expo-router";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 
 export default function HomeScreen() {
-  const { user } = useContext(AuthContext);
-  const [products, setProducts] = useState<any[]>([]);
+  const { user } = useAuth();
+  const [products, setProducts] = useState<ProductDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
   async function fetchFavorites() {
@@ -16,17 +17,13 @@ export default function HomeScreen() {
 
     const fullData = await fetch("https://fakestoreapi.com/products").then((res) => res.json());
     const favorites = await getFavoritesByEmail(user.email);
-    const favoriteIds = favorites.map((fav) => fav.id);
-    const productsFiltered = fullData.filter((product: any) => !favoriteIds.includes(product.id));
+    const favoriteIds = favorites.map((fav: ProductDTO) => fav.id);
+    const productsFiltered = fullData.filter((product: ProductDTO) => !favoriteIds.includes(product.id));
 
     setProducts(productsFiltered);
     setLoading(false);
   }
-  useEffect(() => { 
-    if(user)
-      registerForPushNotificationsAsync()
 
-  }, [user])
 
 
 
@@ -41,8 +38,9 @@ export default function HomeScreen() {
     return <ActivityIndicator className="flex-1" />;
   }
 
-  function handleFavorited(productId: string) {
-    setProducts((prev) => prev.filter((p) => p.id !== productId));
+  function handleFavorited(product: ProductDTO) {
+    saveFavorite(product.id.toString(), product, user.email);
+    setProducts((prev) => prev.filter((p) => p.id !== product.id));
   }
 
   return (
@@ -52,7 +50,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <ProductCard
             product={item}
-            onFavorite={() => handleFavorited(item.id)}
+            onFavorite={() => handleFavorited(item)}
           />
         )}
         keyExtractor={(item) => item.id.toString()}
