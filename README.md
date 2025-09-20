@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+# Desafio Cellar Vinhos 🍷
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este é um projeto [Expo](https://expo.dev) criado com [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## Como começar
 
-1. Install dependencies
+1. Instale as dependências
 
    ```bash
    npm install
    ```
-
-2. Start the app
+   ou
 
    ```bash
-   npx expo start
+   yarn install
    ```
 
-In the output, you'll find options to open the app in a
+2. Rode o app
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   > **Observação:** Para rodar o app, é necessário ter um dispositivo Android conectado ao computador com o modo desenvolvedor ativado ou um emulador Android em execução.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+   ```bash
+   npx android
+   ```
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## Tecnologias Utilizadas
 
-```bash
-npm run reset-project
-```
+- **React Native**
+- **Expo**
+- **Firebase** (Auth, Firestore e FCM)
+- **Nativewind**
+- **Jest**
+- **Yup**
+- **Context API**
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## Decisões Técnicas
 
-To learn more about developing your project with Expo, look at the following resources:
+### <img src="https://raw.githubusercontent.com/expo/expo/master/docs/static/images/brand/icon.png" alt="Expo" width="24" height="24" /> Expo
+O Expo foi utilizado devido à sua capacidade de acelerar o desenvolvimento. No entanto, não é utilizado no momento da build (`npx expo start`), pois o Expo Go não suporta integrações com o Firebase, já que este utiliza módulos nativos. A build com `npx android` é mais demorada, mas permite utilizar todos os recursos do Firebase.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### <img src="https://raw.githubusercontent.com/marklawlor/nativewind/main/apps/docs/public/logo.svg" alt="Nativewind" width="24" height="24" /> Nativewind
+Para estilização, optei pelo Nativewind, pois segue a mesma lógica do desenvolvimento web, sendo mais compatível com o conhecimento de vários desenvolvedores e facilitando a integração entre equipes. Outro ponto importante é que o Styled Components foi descontinuado; apesar de ainda ser amplamente utilizado, sua descontinuação pode causar incompatibilidades futuras.
 
-## Join the community
+### <img src="https://jestjs.io/img/opengraph.png" alt="Jest" width="24" height="24" /> Jest
+Para testes automatizados, utilizei o Jest, por ser simples e amplamente adotado como ferramenta de testes em projetos JavaScript/TypeScript.
 
-Join our community of developers creating universal apps.
+### <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-vertical.png" alt="Firebase" width="24" height="24" /> Firebase
+O Firebase foi utilizado com os seguintes recursos: autenticação por e-mail/senha, registro de usuários, Firestore com operações de criação, leitura e exclusão de informações, além do Messaging (FCM), que pode ser enviado pela plataforma do Firebase e já está implementado no app.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Actions" width="24" height="24" /> Github Actions
+Para CI/CD, utilizei o Github Actions, implementando até a etapa de testes e build das versões de desenvolvimento. A partir desse ponto, seria possível integrar com as lojas, visto que o app já foi testado

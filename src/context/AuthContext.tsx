@@ -1,4 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@react-native-firebase/auth';
+import { router } from 'expo-router';
 import React, { createContext, useEffect, useState } from "react";
 
 type AuthContextType = {
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const auth = getAuth();
     await signOut(auth);
     setUser(null);
+    router.replace('/login');
   };
 
   return (
