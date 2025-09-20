@@ -6,7 +6,6 @@ const mockProducts = [
   { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
   { id: 2, title: 'Produto 2', image: 'img2', price: 20 },
 ];
-const mockSaveFavorite = jest.fn();
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -24,8 +23,14 @@ jest.mock('@/hooks/useAuth', () => ({
 jest.mock('expo-modules-core', () => ({
   EventEmitter: jest.fn(),
 }));
+let mockFocusEffectCallback: any;
 jest.mock('expo-router', () => ({
-  useFocusEffect: jest.fn(),
+  useFocusEffect: (cb: any) => {
+    if (!mockFocusEffectCallback) {
+      mockFocusEffectCallback = cb;
+      cb && cb();
+    }
+  },
 }));
 
 
@@ -33,9 +38,7 @@ describe('HomeScreen', () => {
 
   it('should only render product 2', async () => {
     render(<HomeScreen />);
-    const { useFocusEffect } = require('expo-router');
-    const callback = useFocusEffect.mock.calls[0][0];
-    await callback();
+
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-indicator')).toBeNull();
