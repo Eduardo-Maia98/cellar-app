@@ -43,7 +43,7 @@ describe('HomeScreen', () => {
     const { saveFavorite } = require('@/firebase/favoriteItem');
     saveFavorite.mockImplementation(mockSaveFavorite);
 
-    await findByText('Produto 1');
+    await getByText('Produto 1');
 
     //Exibe os 2 produtos pois nenhum foi adicionado
     expect(getByText('Produto 1')).toBeTruthy();
