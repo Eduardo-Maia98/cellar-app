@@ -19,8 +19,17 @@ jest.mock('@/hooks/useAuth', () => ({
   useAuth: () => ({ user: { email: 'test@example.com' } }),
 }));
 jest.mock('expo-modules-core', () => ({
-  EventEmitter: jest.fn(),
+  EventEmitter: function () {
+    return {
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      removeAllListeners: jest.fn(),
+    };
+  },
+  requireNativeModule: jest.fn(),
+  requireOptionalNativeModule: jest.fn(),
 }));
+
 let mockFocusEffectCallback: any;
 jest.mock('expo-router', () => ({
   useFocusEffect: (cb: any) => {
@@ -30,6 +39,7 @@ jest.mock('expo-router', () => ({
     }
   },
 }));
+
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../home';
 
@@ -43,7 +53,7 @@ describe('HomeScreen', () => {
     const { saveFavorite } = require('@/firebase/favoriteItem');
     saveFavorite.mockImplementation(mockSaveFavorite);
 
-    await getByText('Produto 1');
+    await findByText('Produto 1');
 
     //Exibe os 2 produtos pois nenhum foi adicionado
     expect(getByText('Produto 1')).toBeTruthy();
