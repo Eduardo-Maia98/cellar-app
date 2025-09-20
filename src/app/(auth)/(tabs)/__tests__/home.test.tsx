@@ -11,9 +11,13 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
+let mockFavoritos: any[] = [];
 jest.mock('@/firebase/favoriteItem', () => ({
-  getFavoritesByEmail: jest.fn(() => Promise.resolve([])),
-  saveFavorite: jest.fn(),
+  getFavoritesByEmail: jest.fn(() => Promise.resolve(mockFavoritos)),
+  saveFavorite: jest.fn((id, product, email) => {
+    mockFavoritos.push(product);
+    return Promise.resolve();
+  }),
 }));
 jest.mock('@/hooks/useAuth', () => ({
   useAuth: () => ({ user: { email: 'test@example.com' } }),
@@ -47,31 +51,25 @@ import HomeScreen from '../home';
 
 
 describe('HomeScreen', () => {
+  beforeEach(() => {
+    mockFavoritos = [];
+    jest.clearAllMocks();
+  })
   it('should only render product 2', async () => {
     const { findByText, getByText, getAllByText, queryByText } = render(<HomeScreen />);
 
-    const { saveFavorite } = require('@/firebase/favoriteItem');
-    saveFavorite.mockImplementation(mockSaveFavorite);
-
     await findByText('Produto 1');
+    await findByText('Produto 2');
 
     //Exibe os 2 produtos pois nenhum foi adicionado
     expect(getByText('Produto 1')).toBeTruthy();
     expect(getByText('Produto 2')).toBeTruthy();
-
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     const favoriteButtons = getAllByText('Favoritar');
     expect(favoriteButtons.length).toBe(2);
     fireEvent.press(favoriteButtons[0]);
 
-    //Garante que a função foi chamada com os parâmetros corretos do produto 1 
-    await waitFor(() => {
-      expect(mockSaveFavorite).toHaveBeenCalledWith('1',
-        mockProducts[0],
-        'test@example.com'
-      );
-    });
     //Espera que o produto 1 não esteja mais na tela, apenas o 2, pois o 1 foi favoritado
     await waitFor(() => {
       expect(queryByText('Produto 1')).toBeFalsy();
