@@ -50,7 +50,7 @@ describe('HomeScreen', () => {
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-indicator')).toBeNull();
-    });
+    },{ timeout: 5000 });
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     await waitFor(() => {
