@@ -1,6 +1,4 @@
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import HomeScreen from '../home';
 
 const mockProducts = [
   { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
@@ -32,9 +30,19 @@ jest.mock('expo-router', () => ({
     }
   },
 }));
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import HomeScreen from '../home';
+
 
 
 describe('HomeScreen', () => {
+  beforeEach(() => {
+    (global.fetch as jest.Mock) = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockProducts),
+      })
+    ) as jest.Mock;
+  });
 
   it('should only render product 2', async () => {
     render(<HomeScreen />);
