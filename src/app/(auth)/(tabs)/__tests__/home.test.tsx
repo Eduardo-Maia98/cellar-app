@@ -44,7 +44,7 @@ jest.mock('expo-router', () => ({
   },
 }));
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../home';
 
 
@@ -60,8 +60,11 @@ describe('HomeScreen', () => {
 
 
     //Exibe os 2 produtos pois nenhum foi adicionado
-    await screen.findByText('Produto 1', { exact: false });
-    await screen.findByText('Produto 2', { exact: false });
+    await waitFor(async () => {
+      await findByText('Produto 1', { exact: false });
+      await findByText('Produto 2', { exact: false });
+
+    });
 
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
