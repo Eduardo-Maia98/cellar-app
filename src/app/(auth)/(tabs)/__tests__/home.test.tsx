@@ -60,8 +60,9 @@ describe('HomeScreen', () => {
 
 
     //Exibe os 2 produtos pois nenhum foi adicionado
-    await screen.findByText(/Produto 1/);
-    await screen.findByText(/Produto 2/);
+    await screen.findByText('Produto 1', { exact: false });
+    await screen.findByText('Produto 2', { exact: false });
+
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     const favoriteButtons = getAllByText('Favoritar');
