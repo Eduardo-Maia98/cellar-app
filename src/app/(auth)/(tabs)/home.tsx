@@ -35,7 +35,7 @@ export default function HomeScreen() {
   )
 
   if (loading) {
-    return <ActivityIndicator className="flex-1" />;
+    return <ActivityIndicator testID="loading-indicator" className="flex-1" />;
   }
 
   function handleFavorited(product: ProductDTO) {

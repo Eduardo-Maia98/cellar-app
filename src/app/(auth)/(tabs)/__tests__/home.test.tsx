@@ -58,9 +58,13 @@ describe('HomeScreen', () => {
   it('should only render product 2', async () => {
     render(<HomeScreen />);
 
+    await waitFor(async () => {
+      expect(screen.queryByTestId('loading-indicator')).toBeNull();
+    });
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
-    await waitFor(() => {
+    await waitFor(async () => {
+      
       const favoriteButtons = screen.getAllByText(/Favoritar/i);
       expect(favoriteButtons.length).toBe(2);
       fireEvent.press(favoriteButtons[0]);
