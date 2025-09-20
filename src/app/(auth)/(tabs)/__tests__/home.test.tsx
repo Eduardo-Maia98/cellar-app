@@ -1,5 +1,5 @@
 
-const mockSaveFavorite = jest.fn();
+
 const mockProducts = [
   { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
   { id: 2, title: 'Produto 2', image: 'img2', price: 20 },
