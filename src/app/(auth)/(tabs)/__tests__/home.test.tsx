@@ -44,7 +44,7 @@ jest.mock('expo-router', () => ({
   },
 }));
 
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../home';
 
 
@@ -56,19 +56,19 @@ describe('HomeScreen', () => {
     jest.clearAllMocks();
   })
   it('should only render product 2', async () => {
-    const { findByText, getByText, getAllByText, queryByText } = render(<HomeScreen />);
+    render(<HomeScreen />);
 
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     await waitFor(() => {
-      const favoriteButtons = getAllByText('Favoritar');
+      const favoriteButtons = screen.getAllByText(/Favoritar/i);
       expect(favoriteButtons.length).toBe(2);
       fireEvent.press(favoriteButtons[0]);
     });
     //Espera que o produto 1 não esteja mais na tela, apenas o 2, pois o 1 foi favoritado
     await waitFor(() => {
-      expect(queryByText(/Produto 1/)).toBeFalsy();
-      expect(queryByText(/Produto 2/)).toBeTruthy();
+      expect(screen.queryByText(/Produto 1/)).toBeFalsy();
+      expect(screen.queryByText(/Produto 2/)).toBeTruthy();
     });
   });
 
