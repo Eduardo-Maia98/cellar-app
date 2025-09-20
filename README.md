@@ -39,17 +39,17 @@ Este é um projeto [Expo](https://expo.dev) criado com [`create-expo-app`](https
 
 ## Decisões Técnicas
 
-### <img src="https://raw.githubusercontent.com/expo/expo/master/docs/static/images/brand/icon.png" alt="Expo" width="24" height="24" /> Expo
+###  Expo
 O Expo foi utilizado devido à sua capacidade de acelerar o desenvolvimento. No entanto, não é utilizado no momento da build (`npx expo start`), pois o Expo Go não suporta integrações com o Firebase, já que este utiliza módulos nativos. A build com `npx android` é mais demorada, mas permite utilizar todos os recursos do Firebase.
 
-### <img src="https://raw.githubusercontent.com/marklawlor/nativewind/main/apps/docs/public/logo.svg" alt="Nativewind" width="24" height="24" /> Nativewind
+###  Nativewind
 Para estilização, optei pelo Nativewind, pois segue a mesma lógica do desenvolvimento web, sendo mais compatível com o conhecimento de vários desenvolvedores e facilitando a integração entre equipes. Outro ponto importante é que o Styled Components foi descontinuado; apesar de ainda ser amplamente utilizado, sua descontinuação pode causar incompatibilidades futuras.
 
-### <img src="https://jestjs.io/img/opengraph.png" alt="Jest" width="24" height="24" /> Jest
+###  Jest
 Para testes automatizados, utilizei o Jest, por ser simples e amplamente adotado como ferramenta de testes em projetos JavaScript/TypeScript.
 
-### <img src="https://firebase.google.com/downloads/brand-guidelines/PNG/logo-vertical.png" alt="Firebase" width="24" height="24" /> Firebase
+###  Firebase
 O Firebase foi utilizado com os seguintes recursos: autenticação por e-mail/senha, registro de usuários, Firestore com operações de criação, leitura e exclusão de informações, além do Messaging (FCM), que pode ser enviado pela plataforma do Firebase e já está implementado no app.
 
-### <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Actions" width="24" height="24" /> Github Actions
-Para CI/CD, utilizei o Github Actions, implementando até a etapa de testes e build das versões de desenvolvimento. A partir desse ponto, seria possível integrar com as lojas, visto que o app já foi testado
+### Github Actions
+Para CI/CD, utilizei o Github Actions, implementando até a etapa de testes e build das versões de desenvolvimento. A partir desse ponto, seria possível integrar com as lojas, visto que o app já foi testado.

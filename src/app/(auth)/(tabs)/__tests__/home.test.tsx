@@ -1,9 +1,12 @@
 
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import HomeScreen from '../home';
 
 const mockProducts = [
   { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
   { id: 2, title: 'Produto 2', image: 'img2', price: 20 },
 ];
+const mockSaveFavorite = jest.fn();
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -11,60 +14,36 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-let mockFavoritos: any[] = [];
 jest.mock('@/firebase/favoriteItem', () => ({
-  getFavoritesByEmail: jest.fn(() => Promise.resolve(mockFavoritos)),
-  saveFavorite: jest.fn((id, product, email) => {
-    mockFavoritos.push(product);
-    return Promise.resolve();
-  }),
+  getFavoritesByEmail: jest.fn(() => Promise.resolve([])),
+  saveFavorite: jest.fn(),
 }));
 jest.mock('@/hooks/useAuth', () => ({
   useAuth: () => ({ user: { email: 'test@example.com' } }),
 }));
 jest.mock('expo-modules-core', () => ({
-  EventEmitter: function () {
-    return {
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      removeAllListeners: jest.fn(),
-    };
-  },
-  requireNativeModule: jest.fn(),
-  requireOptionalNativeModule: jest.fn(),
+  EventEmitter: jest.fn(),
 }));
-
-let mockFocusEffectCallback: any;
 jest.mock('expo-router', () => ({
-  useFocusEffect: (cb: any) => {
-    if (!mockFocusEffectCallback) {
-      mockFocusEffectCallback = cb;
-      cb && cb();
-    }
-  },
+  useFocusEffect: jest.fn(),
 }));
-
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import HomeScreen from '../home';
-
-
 
 
 describe('HomeScreen', () => {
-  beforeEach(() => {
-    mockFavoritos = [];
-    jest.clearAllMocks();
-  })
+
   it('should only render product 2', async () => {
     render(<HomeScreen />);
+    const { useFocusEffect } = require('expo-router');
+    const callback = useFocusEffect.mock.calls[0][0];
+    await callback();
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryByTestId('loading-indicator')).toBeNull();
     });
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
-    await waitFor(async () => {
-      
+    await waitFor(() => {
+      screen.debug()
       const favoriteButtons = screen.getAllByText(/Favoritar/i);
       expect(favoriteButtons.length).toBe(2);
       fireEvent.press(favoriteButtons[0]);
