@@ -1,4 +1,39 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #12122f; 
+  --color-secondary: #f0a451;
+  --color-white: #fff;
+  --color-card: #2f306b
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-card {
+  background-color: var(--color-card) !important;
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.text-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.text-white {
+  color: var(--color-white) !important;
+}

@@ -1,12 +1,14 @@
 import { AuthProvider } from "@/context/AuthContext";
 import { getApp } from "@react-native-firebase/app";
 import { getMessaging, onMessage, setBackgroundMessageHandler } from '@react-native-firebase/messaging';
+import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import { useEffect } from "react";
-import { PermissionsAndroid, StatusBar, View } from "react-native";
+import { PermissionsAndroid, StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import "./global.css";
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+
 //import { getFcmToken } from "@/utils/getTokenService";
 
 
@@ -24,6 +26,10 @@ export default function RootLayout() {
   // useEffect(() => {
   //   getFcmToken();
   // }, []);
+  useEffect(() => {
+    NavigationBar.setButtonStyleAsync("light");
+    NavigationBar.setVisibilityAsync("visible");
+  }, []);
 
 
   useEffect(() => {
@@ -38,12 +44,11 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <View style={{ height: insets.top }} />
+      
       <StatusBar
-        barStyle="dark-content"
-        backgroundColor={"transparent"}
+        barStyle="light-content"
         animated={true}
-        translucent
+        backgroundColor={"#2f306b"}
       />
 
       <Slot />

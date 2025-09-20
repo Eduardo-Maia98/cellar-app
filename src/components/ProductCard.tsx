@@ -21,16 +21,16 @@ export default function ProductCard({ product, isFavorited, onUnfavorite, onFavo
     }
   }
   return (
-    <View className="bg-white rounded-xl shadow p-4 mb-4">
+    <View className="bg-card rounded-xl shadow p-4 mb-4">
       <Image
         source={{ uri: product.image }}
         className="w-full h-40 mb-2 rounded-lg"
         resizeMode="contain"
       />
-      <Text className="text-lg font-bold">{product.title}</Text>
-      <Text className="text-gray-600">${product.price}</Text>
+      <Text className="text-white text-lg font-bold">{product.title}</Text>
+      <Text className="text-gray-300">${product.price}</Text>
 
-      <TouchableOpacity className="bg-blue-600 mt-2 py-2 rounded-lg" onPress={handleFavorite}>
+      <TouchableOpacity className="bg-secondary mt-2 py-2 rounded-lg" onPress={handleFavorite}>
         <Text className="text-white text-center">{isFavorited ? "Remover dos favoritos" : "Favoritar"}</Text>
       </TouchableOpacity>
     </View>

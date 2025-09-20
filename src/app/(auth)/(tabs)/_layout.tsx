@@ -30,7 +30,16 @@ export default function TabsLayout() {
   };
 
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: { backgroundColor: '#2f306b' },
+        tabBarActiveTintColor: '#f0a451',
+        tabBarInactiveTintColor: '#fff',
+        headerStyle: { backgroundColor: '#2f306b' },
+        headerTitleStyle: { color: '#fff' },
+        headerTintColor: '#fff',
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -38,9 +47,10 @@ export default function TabsLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
           headerRight: () => (
             <TouchableOpacity onPress={handleLogout} style={{ marginRight: 16 }}>
-              <FontAwesome name="sign-out" size={24} color="#222" />
+              <FontAwesome name="sign-out" size={24} color="#fff" />
             </TouchableOpacity>
           ),
+
         }}
       />
       <Tabs.Screen

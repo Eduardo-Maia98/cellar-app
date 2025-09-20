@@ -16,7 +16,6 @@ export default function FavoritesScreen() {
     getFavoritesByEmail(user.email).then((data) => {
       setFavorites(data);
     });
-    console.log('fetch')
   }
 
   async function handleUnfavorite(productId: number) {
@@ -34,13 +33,13 @@ export default function FavoritesScreen() {
 
 
   if (!favorites.length) return (
-    <View className="flex-1 bg-white p-4 items-center">
-      <Text>Nenhum favorito encontrado.</Text>
+    <View className="flex-1 bg-primary p-4 items-center">
+      <Text className="text-white">Nenhum favorito encontrado.</Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-white p-4">
+    <View className="flex-1 bg-primary p-4">
       <FlatList
         data={favorites}
         renderItem={({ item }) => (

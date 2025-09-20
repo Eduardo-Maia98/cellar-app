@@ -35,7 +35,11 @@ export default function HomeScreen() {
   )
 
   if (loading) {
-    return <ActivityIndicator testID="loading-indicator" className="flex-1" />;
+    return (
+      <View className="flex-1 bg-primary p-4 items-center">
+        <ActivityIndicator testID="loading-indicator" className="flex-1" />
+      </View>
+    );
   }
 
   function handleFavorited(product: ProductDTO) {
@@ -44,7 +48,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white p-4">
+    <View className="flex-1 bg-primary p-4">
       <FlatList
         data={products}
         renderItem={({ item }) => (
