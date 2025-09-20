@@ -17,8 +17,14 @@ jest.mock('@/hooks/useAuth', () => ({
 jest.mock('expo-modules-core', () => ({
   EventEmitter: jest.fn(),
 }));
+let mockFocusEffectCallback: any;
 jest.mock('expo-router', () => ({
-  useFocusEffect: jest.fn(),
+  useFocusEffect: (cb: any) => {
+    if (!mockFocusEffectCallback) {
+      mockFocusEffectCallback = cb;
+      cb && cb();
+    }
+  },
 }));
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import HomeScreen from '../home';
@@ -36,24 +42,18 @@ describe('HomeScreen', () => {
     const { saveFavorite } = require('@/firebase/favoriteItem');
     saveFavorite.mockImplementation(mockSaveFavorite);
 
-
-
-    const { useFocusEffect } = require('expo-router');
-    const callback = useFocusEffect.mock.calls[0][0];
-    await callback();
     await findByText('Produto 1');
-    //Exibe os 2 produtos pois nenhum foi adicionado
-    await waitFor(() => {
-      expect(getByText('Produto 1')).toBeTruthy();
-      expect(getByText('Produto 2')).toBeTruthy();
-    });
 
-    //Garante que tem os 2 botões de favoritar e clica no primeiro, no caso do mock o produto 1
-    await waitFor(() => {
-      const favoriteButtons = getAllByText('Favoritar');
-      expect(favoriteButtons.length).toBe(2);
-      fireEvent.press(favoriteButtons[0]);
-    });
+    //Exibe os 2 produtos pois nenhum foi adicionado
+    expect(getByText('Produto 1')).toBeTruthy();
+    expect(getByText('Produto 2')).toBeTruthy();
+
+
+    //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
+    const favoriteButtons = getAllByText('Favoritar');
+    expect(favoriteButtons.length).toBe(2);
+    fireEvent.press(favoriteButtons[0]);
+
     //Garante que a função foi chamada com os parâmetros corretos do produto 1 
     await waitFor(() => {
       expect(mockSaveFavorite).toHaveBeenCalledWith('1',
