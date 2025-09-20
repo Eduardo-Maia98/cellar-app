@@ -54,11 +54,11 @@ describe('HomeScreen', () => {
 
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     await waitFor(() => {
-      screen.debug()
       const favoriteButtons = screen.getAllByText(/Favoritar/i);
       expect(favoriteButtons.length).toBe(2);
       fireEvent.press(favoriteButtons[0]);
     });
+    
     //Espera que o produto 1 não esteja mais na tela, apenas o 2, pois o 1 foi favoritado
     await waitFor(() => {
       expect(screen.queryByText(/Produto 1/)).toBeFalsy();
