@@ -57,12 +57,15 @@ describe('HomeScreen', () => {
   })
   it('should only render product 2', async () => {
     const { findByText, getByText, getAllByText, queryByText } = render(<HomeScreen />);
-  
+
+    await findByText('Produto 1');
+    await findByText('Produto 2');
+
+
     //Exibe os 2 produtos pois nenhum foi adicionado
-    await waitFor(() => {
-      expect(queryByText('Produto 1')).toBeTruthy();
-      expect(queryByText('Produto 2')).toBeTruthy();
-    });
+    await findByText('Produto 1');
+    await findByText('Produto 2');
+    
     //Garante que tem os 2 botões de favoritar e clica no primeiro, nesse caso, no do mock do produto 1
     const favoriteButtons = getAllByText('Favoritar');
     expect(favoriteButtons.length).toBe(2);
