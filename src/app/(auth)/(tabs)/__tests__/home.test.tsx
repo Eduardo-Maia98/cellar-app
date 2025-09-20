@@ -1,11 +1,4 @@
 
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
-import HomeScreen from '../home';
-
-const mockProducts = [
-  { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
-  { id: 2, title: 'Produto 2', image: 'img2', price: 20 },
-];
 const mockSaveFavorite = jest.fn();
 
 global.fetch = jest.fn(() =>
@@ -27,19 +20,28 @@ jest.mock('expo-modules-core', () => ({
 jest.mock('expo-router', () => ({
   useFocusEffect: jest.fn(),
 }));
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import HomeScreen from '../home';
+
+const mockProducts = [
+  { id: 1, title: 'Produto 1', image: 'img1', price: 10 },
+  { id: 2, title: 'Produto 2', image: 'img2', price: 20 },
+];
+
 
 describe('HomeScreen', () => {
   it('should only render product 2', async () => {
+    const { findByText, getByText, getAllByText, queryByText } = render(<HomeScreen />);
+
     const { saveFavorite } = require('@/firebase/favoriteItem');
     saveFavorite.mockImplementation(mockSaveFavorite);
 
 
-    const { getByText, getAllByText, queryByText } = render(<HomeScreen />);
 
     const { useFocusEffect } = require('expo-router');
     const callback = useFocusEffect.mock.calls[0][0];
     await callback();
-
+    await findByText('Produto 1');
     //Exibe os 2 produtos pois nenhum foi adicionado
     await waitFor(() => {
       expect(getByText('Produto 1')).toBeTruthy();
